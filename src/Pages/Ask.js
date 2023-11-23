@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import './Ask.css';
 
 function Ask () {
     const [response, setResponse] = useState();
@@ -10,13 +10,13 @@ function Ask () {
     const navigate = useNavigate();
 
     const sendPost = () => {
-        const URL = `https://port-0-java-project-5mk12alp7v761c.sel5.cloudtype.app/post`;
+        const URL = `https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/post`;
         axios.post(URL, { title: inputTitle, content: inputContent
         })
         .then((response) => {
-            setResponse(response);
+            setResponse(response.data);
             console.log(setResponse);
-            navigate(`/ask`);
+            navigate(`/`);
         })
         .catch((error) => {
             console.log('오류 :', error);
@@ -27,28 +27,49 @@ function Ask () {
         navigate(`/`);
     }
     return(
-        <div>
-            <input 
-                type="text" 
-                placeholder="Title"
-                value={inputTitle}
-                onChange={(e) => setInputTitle(e.target.value)}
-            />
+        <div className="textAlign">
+            <div className="jungRyul">
+                <div className="form">
+                    <div className="formBox">
+                        <div className="inputBefore">
+                            <div className="padding">
+                                <div>
+                                    <div className="Title">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Title"
+                                            value={inputTitle}
+                                            onChange={(e) => setInputTitle(e.target.value)}
+                                            className="inputTitle"
+                                        />
+                                    </div>
+                                    <div className="Title">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Content"
+                                            value={inputContent}
+                                            onChange={(e) => setInputContent(e.target.value)}
+                                            className="inputTitle"
+                                        />
+                                    </div>
+                                </div>
 
-            <p></p>
+                                <div className="margin">
+                                    <button className="greenBtn" onClick={sendPost}>전송하기</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                <div className="margin">
+                    <button className="greenBtn" onClick={pageBack}>돌아가기</button>
+                </div>
 
-            <input 
-                type="text" 
-                placeholder="Content"
-                value={inputContent}
-                onChange={(e) => setInputContent(e.target.value)}
-            />
+                </div>
+            </div>
 
-            <p></p>
+            
 
-            <button onClick={sendPost}>전송하기</button>
-
-            <button onClick={pageBack}>돌아가기</button>
         </div>
     );
 }

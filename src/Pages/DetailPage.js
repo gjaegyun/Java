@@ -16,7 +16,7 @@ function DetailPage() {
 
 
     const detailApi = () =>  {
-        axios.get(`https://port-0-java-project-5mk12alp7v761c.sel5.cloudtype.app/info?id=${id}`)
+        axios.get(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/info?id=${id}`)
             .then((data)=>{
                 const result = data.data;
                 setDatas(result)
@@ -24,7 +24,7 @@ function DetailPage() {
     }
     
     const deletePost = () => {
-        axios.delete(`https://port-0-java-project-5mk12alp7v761c.sel5.cloudtype.app/delete?id=${id}`)
+        axios.delete(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/delete?id=${id}`)
         .then(response => {
             console.log('잘 된 데이터 : ', response.data);
             navigate(`/`)
@@ -38,12 +38,12 @@ function DetailPage() {
     }
 
     const likePost = () => {
-        axios.post(`https://port-0-java-project-5mk12alp7v761c.sel5.cloudtype.app/likes`, {
+        axios.post(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/likes`, {
             boardId : id
         })
         .then((response) => {
             setLike(prevLikes => prevLikes + 1);
-            console.log(likeResponse);
+            console.log(response);
         })
         .catch((error) => {
             console.log('오류 : ', error);
@@ -51,7 +51,7 @@ function DetailPage() {
     }
 
     const upDatePost = () => {
-        axios.put(`https://port-0-java-project-5mk12alp7v761c.sel5.cloudtype.app/update?id=${id}`, {
+        axios.put(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/update?id=${id}`, {
             boardId : id,
             title : inputTitle,
             content : inputContent

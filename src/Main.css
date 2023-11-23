@@ -1,0 +1,37 @@
+.greenBox {
+    position: absolute;
+    height: 50px;
+    padding: 0 18px;
+    line-height: 50px;
+    border: 1px solid #00bd39;
+    background-color: #00c73c;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 60px;
+
+    border-radius: 10px;
+}
+
+.green {
+    background-color: #00c73c;
+    color: #fff;
+    border: #00bd39;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.wantPad {
+    padding-right: 7px;
+}
+
+.center {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.padding {
+    padding: 20px 28px;
+}
