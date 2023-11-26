@@ -1,22 +1,31 @@
 import axios from 'axios'
 import { useEffect, useState} from 'react';
 import { useNavigate, useParams } from "react-router-dom";
+import './DetailPage.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+
 
 function DetailPage() {
     const { id } = useParams();
-    const [inputTitle, setInputTitle] = useState('');
-    const [inputContent, setInputContent] = useState('');
-    const [likeResponse, setLike] = useState(null);
+    console.log(id);
+    const [likeResponse, setLike] = useState(0);
     const [datas, setDatas] = useState([]);
+    const [commentData, setCommentData] = useState();
+    const [response, setResponse] = useState();
+    const [inputName, setInputName] = useState();
+    const [inputComment, setInputComment] = useState();
+
     const navigate = useNavigate();
 
     useEffect(() => {
         detailApi();
+        getComment();
     }, [id]);
 
 
     const detailApi = () =>  {
-        axios.get(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/info?id=${id}`)
+        axios.get(`http://192.168.1.25:8085/api/info?id=${id}`)
             .then((data)=>{
                 const result = data.data;
                 setDatas(result)
@@ -24,7 +33,7 @@ function DetailPage() {
     }
     
     const deletePost = () => {
-        axios.delete(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/delete?id=${id}`)
+        axios.delete(`http://192.168.1.25:8085/api/delete?id=${id}`)
         .then(response => {
             console.log('잘 된 데이터 : ', response.data);
             navigate(`/`)
@@ -38,7 +47,7 @@ function DetailPage() {
     }
 
     const likePost = () => {
-        axios.post(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/likes`, {
+        axios.post(`http://192.168.1.25:8085/api/likes`, {
             boardId : id
         })
         .then((response) => {
@@ -50,65 +59,117 @@ function DetailPage() {
         })
     }
 
-    const upDatePost = () => {
-        axios.put(`https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/update?id=${id}`, {
-            boardId : id,
-            title : inputTitle,
-            content : inputContent
+    const getComment = () => {
+        axios.get(`http://192.168.1.25:8085/api/get/comment?id=${id}`)
+        .then((response) => {
+            const commentData = response.data;
+            setCommentData(commentData);
+        })
+        .catch(error => {
+            console.log('에러', error);
+        })
+    }
+
+    const commentPost = () => {
+
+        axios.post(`http://192.168.1.25:8085/api/post/comment?id=${id}`, 
+        { 
+            authorName : inputName, 
+            content : inputComment
         })
         .then((response) => {
-            console.log(response);
-            navigate(`/`);
+            setResponse(response.date);
         })
         .catch((error) => {
-            console.log('오류 : ', error);
-        })
+            console.log('오류 :', error);
+        });
+    }
+
+    const update = (id) => {
+        navigate(`/update/${id}`);
+    }
+
+    const reRoll = (id) => {
+        navigate(`/detail/${id}`);
     }
 
     return(
         <>
-            <div key={id}>
-                <h2>detail Page</h2>
-                <div>ID : {id}</div>
-                <div>Title : {datas.title}</div>
-                <div>Likes : {likeResponse}</div>
-                <div>Content : {datas.content}</div>
+            <script src="https://kit.fontawesome.com/f58b282d72.js" crossorigin="anonymous"></script>
+            <div className='relative' key={id}>
+                <div className='margin'>
+                    <div className='width'>
+                        <div className='padding'>
+                            <div className='widthMargin'>
+                                <div className='wordWrap'>
+                                    <div className='question'>
+                                        <FontAwesomeIcon icon={faCircleUser} className='icon'/>
+                                    </div>
+                                    <div className='headingTitle'>
+                                        <div className='headingContent'>
+                                            <div className='title'>{datas.title}</div>
+                                        </div>
+                                    </div>
+                                    <div className='headingText'>
+                                        {datas.content}
+                                    </div>
+                                </div>
+                                <div className='marginTop'>
+                                    <div className='floatLeft'>
+                                        <div className='inline'>
+                                        <span className='display' onClick={likePost}>좋아요 : {likeResponse}</span>
+                                        <button className='delBtn' onClick={() => update(id)}>수정하기</button>
+                                        <button className='delBtn' onClick={deletePost}>삭제하기</button>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
 
-                <p></p>
+                            <div className='text'>
 
-                <button onClick={likePost}>좋아요</button>
+                                <input
+                                    type="text"
+                                    placeholder="authorName"
+                                    value={inputName}
+                                    onChange={(e) => setInputName(e.target.value)}
+                                    className='boxPad'
+                                />
 
-                <p></p>
+                                <input
+                                    type="text"
+                                    placeholder="Content"
+                                    value={inputComment}
+                                    onChange={(e) => setInputComment(e.target.value)}
+                                    className='boxPad'
+                                />
 
-                <button onClick={deletePost}>Delete</button>
+                                <button className='boxSize' onClick={() => { commentPost(); window.location.reload(true); }}>댓글달기</button>
 
-                <p></p>
-                
-                <div>
-                    <h2>수정하기</h2>
+                            </div>
 
-                    <input
-                        type="text"
-                        placeholder='fixTitle'
-                        value={inputTitle}
-                        onChange={(e) => setInputTitle(e.target.value)}
-                    />
 
-                    <p></p>
-
-                    <input 
-                        type="text"
-                        placeholder='fixContent'
-                        value={inputContent}
-                        onChange={(e) => setInputContent(e.target.value)}
-                    />
-
-                    <p></p>
-
-                    <button onClick={upDatePost}>수정하기</button>
+                            {commentData && commentData.map((comment, i) => (
+                                <div className='commentBox'>
+                                    <div className='secondBox'>
+                                        <div key={i} className='author'>
+                                            <div className='authorName'>
+                                                <div className='realAuthor'>작성자 : {comment.author_name}</div>
+                                                <div className='realContent'>내용 : {comment.content}</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            ))}
+                        </div>
+                    </div>
                 </div>
-    
             </div>
+            
         </>
     )
 }

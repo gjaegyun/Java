@@ -15,7 +15,7 @@ function Main () {
     }, []);
 
     const getRequest = () => {
-        const URL = `https://port-0-java-project-backend-cn1vmr2clp9jhzv3.sel5.cloudtype.app/api/get`;
+        const URL = `http://192.168.1.25:8085/api/get`;
         axios.get(URL)
         .then((data) => {
             const getResult = data.data;
@@ -37,28 +37,29 @@ function Main () {
     }
 
     return(
-        <div className="center">
-            <script src="https://kit.fontawesome.com/f58b282d72.js" crossorigin="anonymous"></script>
-            <div className="greenBox">
-                <button onClick={Ask} className="green">
-                    <span className="wantPad">질문하러 가기</span>
-                    <FontAwesomeIcon icon={faPen} />
-                </button>
-            </div>
-
-
-            <p></p>
-
-            {datas.map((data) =>
-                <div key={data.id} style={{ textAlign: 'center' }}>
-                    <div>
-                        <button onClick={() => goDetail(data.id)}>
-                            <div>제목 : {data.title}</div>
-                            <div>좋아요 : {data.likes}</div>
-                        </button>
-                    </div>
+        <div>
+            <div className="center">
+                <script src="https://kit.fontawesome.com/f58b282d72.js" crossorigin="anonymous"></script>
+                <div className="greenBox">
+                    <button onClick={Ask} className="green">
+                        <span className="wantPad">질문하러 가기</span>
+                        <FontAwesomeIcon icon={faPen} />
+                    </button>
                 </div>
-            )}
+
+                <div className="contentBox">
+                    {datas.map((data) =>
+                        <div key={data.id} className="inContent" onClick={() => goDetail(data.id)}>
+                            <div className="overFlow">
+                                <div className="tagName">
+                                    <span className="titleContent">제목 : {data.title}</span>
+                                    <p className="like">좋아요 : {data.likes}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }

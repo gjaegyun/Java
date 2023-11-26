@@ -1,33 +1,35 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import './Ask.css';
+import { useNavigate, useParams } from "react-router-dom";
+import { useState} from 'react';
+import './Update.css'
 
-function Ask () {
-    const [response, setResponse] = useState();
-    const [inputTitle, setInputTitle] = useState();
-    const [inputContent, setInputContent] = useState();
+function Update () {
+    const { id } = useParams();
+    const [inputTitle, setInputTitle] = useState('');
+    const [inputContent, setInputContent] = useState('');
     const navigate = useNavigate();
 
-    const sendPost = () => {
-        const URL = `http://192.168.1.25:8085/api/post`;
-        axios.post(URL, { title: inputTitle, content: inputContent
+    const upDatePost = () => {        
+        axios.put(`http://192.168.1.25:8085/api/update?id=${id}`, {
+            boardId : id,
+            title : inputTitle,
+            content : inputContent
         })
         .then((response) => {
-            setResponse(response.data);
-            console.log(setResponse);
+            console.log(response);
             navigate(`/`);
         })
         .catch((error) => {
-            console.log('오류 :', error);
-        });
+            console.log('오류 : ', error);
+        })
     }
 
     const pageBack = () => {
         navigate(`/`);
     }
+
     return(
-        <div className="textAlign">
+        <div className="textAlign" key={id}>
             <div className="jungRyul">
                 <div className="form">
                     <div className="formBox">
@@ -55,7 +57,7 @@ function Ask () {
                                 </div>
 
                                 <div className="margin">
-                                    <button className="greenBtn" onClick={sendPost}>전송하기</button>
+                                    <button className="greenBtn" onClick={upDatePost}>수정하기</button>
                                 </div>
                             </div>
                             
@@ -71,7 +73,7 @@ function Ask () {
             
 
         </div>
-    );
+    )
 }
 
-export default Ask;
+export default Update;

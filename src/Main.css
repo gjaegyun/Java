@@ -35,3 +35,56 @@
 .padding {
     padding: 20px 28px;
 }
+
+.contentBox {
+    margin-top: 150px;
+    position: relative;
+}
+
+.inContent {
+    border-top: 1px solid #cacccc;
+    position: relative;
+    padding: 19px 0 22px;
+    border-bottom: 1px solid #ededed;
+}
+
+.overFlow {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.tagName {
+    color: #8c8c8c;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.titleContent {
+    margin-top: 0;
+    vertical-align: top;
+    color: #8c8c8c;
+    cursor: pointer;
+}
+
+.like {
+    overflow: hidden;
+    max-height: 56px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: normal;
+    color: #8c8c8c;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
